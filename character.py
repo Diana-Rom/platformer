@@ -31,6 +31,11 @@ class Character:
     def check_collision(self, obj) -> bool:
         return self.x + self.size[0] > obj.x and self.y + self.size[1] > obj.y and self.x < obj.x + obj.size[0] and self.y < obj.y + obj.size[1]
 
+    def check_multiple_collision(self, objects) -> bool:
+        for object in objects:
+            if self.check_collision(object):
+                return True
+        return False
 
     def jump(self) -> None:
         self.jumping = True
