@@ -2,6 +2,8 @@ import pygame as pg
 from character import Character
 from screen_init import screen
 from block import Block
+import constants
+import block
 
 blocks = [Block(x=100, y=250, size=[60, 60],color=(124, 190, 210)), Block(x=320, y=200, size=[60, 100],color=(124, 190, 210))]
 char1 = Character(x=100, y=100, size=[20, 40], speed=5, hp=100)
@@ -22,13 +24,14 @@ while running:
         if keys[pg.K_LEFT] == True:
             char1.move("left")
             char1.bound()
-            if char1.check_collision(block):
+            print(char1.check_collision(block))
+            while char1.check_collision(block):
                 char1.move('right')
         if keys[pg.K_RIGHT] == True:
             # char1.jumping = False #?
             char1.move('right')
             char1.bound()
-            if char1.check_collision(block):
+            while char1.check_collision(block):
                 char1.move('left')
         if keys[pg.K_UP] == True and char1.jumping == False:
             char1.jump()
@@ -41,14 +44,14 @@ while running:
             if char1.y >= 250:
                 char1.y = 250
                 char1.jumping = False
-                char1.boost = 10 
+                char1.boost = constants.BOOST 
                 char1.falling = False
             if char1.check_collision(block) and char1.falling:
                 char1.jumping = False
-                char1.boost = 10
+                char1.boost = constants.BOOST
                 char1.falling = False
 
-        if char1.y < 250 and char1.jumping == False and not char1.check_multiple_collision(block):
+        if char1.y < 250 and char1.jumping == False and not char1.check_multiple_collision(blocks):
             if char1.falling == False:
                 char1.falling = True
                 char1.jumping = True
