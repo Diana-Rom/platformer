@@ -20,6 +20,10 @@ class Character:
             self.x -= self.speed
         if direction == 'right':
             self.x += self.speed
+        if direction == 'up':
+            self.y -= self.speed
+        if direction == 'down':
+            self.y += self.speed
 
     def bound(self) -> None:
         if self.x < 0:
