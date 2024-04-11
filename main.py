@@ -3,7 +3,8 @@ from character import Character
 from screen_init import screen
 from block import Block
 import constants
-import block
+from coin import Coin
+
 
 blocks = [
     Block(x=100, y=230, size=[60, 60],color=(124, 190, 210)),
