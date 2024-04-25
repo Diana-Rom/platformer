@@ -4,13 +4,18 @@ from screen_init import screen
 from block import Block
 import constants
 from coin import Coin
-
+import coin
 
 blocks = [
-    Block(x=100, y=230, size=[60, 60],color=(124, 190, 210)),
-    Block(x=165, y=190, size=[60, 100],color=(124, 190, 210)),
-    Block(x=165, y=10, size=[60, 60],color=(124, 190, 210))
+    Block(x=100, y=230, size=[60, 60], color=(124, 190, 210)),
+    Block(x=200, y=190, size=[60, 100], color=(124, 190, 210)),
+    Block(x=300, y=10, size=[60, 60], color=(124, 190, 210))
 
+]
+
+coins = [
+    Coin(x=250, y=130, radius=10 , color=constants.COIN_COLOR),
+    Coin(x=100 , y=130 , radius=10 , color=constants.COIN_COLOR)
 ]
 char1 = Character(x=100, y=100, size=[20, 40], speed=3, hp=100)
 font = pg.font.Font(None, 36)
@@ -55,36 +60,41 @@ while running:
                 char1.jumping = False
                 char1.boost = constants.BOOST 
                 char1.falling = False
-            if char1.check_collision(block) and char1.falling and char1.y < block.y:
+            if char1.check_collision(block) and char1.falling and char1.y + char1.size[1] > block.y: # падаешь на блок
                 char1.jumping = False
                 char1.boost = constants.BOOST
                 char1.falling = False
                 while char1.check_collision(block):
-                    char1.y -= 1
+                    char1.y -= 1 
                 char1.y += 1
 
-            if char1.check_collision(block) and char1.jumping and char1.y > block.y:
+            if char1.check_collision(block) and char1.jumping and char1.y > block.y and not char1.falling:
                 char1.boost = 0
                 while char1.check_collision(block):
                     char1.y += 1
+                    # print('beat head repeat', block.y)
 
+            print(char1.boost, char1.y)
 
         if char1.y < 250 and char1.jumping == False and not char1.check_collision(block):
-            if char1.falling == False:
-                char1.falling = True
-                char1.jumping = True
-                char1.boost = 0
+        #     if char1.falling == False:
+            char1.falling = True
+            char1.jumping = True
+            char1.boost = 0
+            print('падаем')
 
         if char1.boost < 0:
             char1.falling = True
-          
         block.draw()
+
     text = font.render(f"{char1.x} {char1.y}", True, (255,255,255))
     screen.blit(text, (20,20))
         
 
+    coins[0].draw()
     char1.draw()
     # print(char1.check_collision(block))
     pg.display.flip()
     clock.tick(FPS)
+
     # print(char1.boost, char1.falling, char1.jumping)

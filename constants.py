@@ -1,1 +1,2 @@
 BOOST = 15
+COIN_COLOR = (220, 220, 153)
